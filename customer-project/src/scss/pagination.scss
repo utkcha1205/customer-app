@@ -1,0 +1,53 @@
+.pagination-box {
+    padding: 10px 15px;
+    background-color: rgba(231, 244, 253, .65);
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+  
+    h6 {
+      margin: 0;
+      font-size: 12px;
+      color: #4a4a4a;
+  
+      .btn {
+        padding: 3px 15px 3px 0px;
+        margin-left: 10px;
+        background-color: #fff;
+        font-size: 12px;
+        min-width: 45px;
+      }
+    }
+  
+    .page-item .page-link {
+      padding: 5px 10px;
+      font-size: 12px;
+      margin-right: 5px;
+      border-radius: 4px;
+    }
+  
+    .dropdown-toggle {
+      &:after {
+        right: 6px;
+      }
+    }
+  
+    .dropdown-menu {
+      width: 30px;
+      max-height: 370px;
+      overflow-y: auto;
+  
+      li {
+        padding: 5px 15px;
+        font-size: 12px;
+        color: gray;
+  
+  
+        &:hover {
+          cursor: pointer;
+          color: #00aeef;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  

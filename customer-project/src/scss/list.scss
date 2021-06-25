@@ -1,0 +1,120 @@
+
+
+.list-header {
+  color: #253c5e;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background: #d7effb;
+
+  p {
+    font-size: 12px;
+    margin: 0;
+    padding: 10px 0px;
+    font-weight: 700;
+    color: #02345c;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+
+.list-body {
+  
+    min-height: calc(100vh - 170px);
+    margin-bottom: 20px;
+  
+   .list-item {
+      box-shadow: 0px 10px 9px -7px #b4b4b4;
+
+  
+     li {
+       h6 {
+         font-size: 11px;
+         margin: 5px 0 0;
+         color: gray;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+       }
+     }
+  
+     h2 {
+       color: #07a0e3;
+       font-weight: 600;
+       font-size: 13px;
+       margin-bottom: 0;
+       text-transform: capitalize;
+     }
+  
+     .badge {
+       font-size: 12px !important;
+       font-weight: 500;
+       width: fit-content;
+       padding: 5px 10px !important;
+       border-radius: 5px;
+     }
+  
+     .badge-danger {
+       color: #fff !important;
+       background-color: #e05361;
+       border: 1px solid #bf3b48;
+     }
+  
+     .badge-warning {
+       color: #423e3e !important;
+       background-color: #ffd24d;
+       border: 1px solid #ecc349;
+     }
+  
+     .badge-info {
+       color: #fff !important;
+       background-color: #3ca6b7;
+       border: 1px solid #2f9aab;
+     }
+     .toggle-button{
+      margin-left: 20px;
+      .btn-toggle {
+       padding: 0;
+       position: relative;
+       border: none;
+       height: 24px;
+       width: 50px;
+       border-radius: 20px !important;
+       color: #6b7381;
+       background: #bdc1c8;
+       box-shadow: none !important;
+       .handle {
+         width: 15px;
+         height: 15px;
+         top: 50%;
+         transform: translateY(-50%);
+         left: 3px;
+         position: absolute;
+         border-radius: 50%;
+         background: #fff !important;
+         border: none !important;
+       }
+   
+       &.btn-toggle.active {
+         background-color: #00e6072b;
+         border: 1px solid #7bce7b;
+         transition: background-color 0.25s;
+         .handle {
+           right: 3px;
+           left: initial;
+           transition: left .25s;
+           background: #39a937f7 !important;
+       }
+     }
+   }
+     }
+   }
+  }
+
+  .list-style-none {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
