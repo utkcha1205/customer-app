@@ -23,6 +23,7 @@
        totalItemsCount: totalItemsCount ,
        completeData: data
    })
+   {console.log(state.totalItemsCount)}
    let totalPages = Math.ceil(state.totalItemsCount / state.pageSize)
    let dataChanged = !isEqual(data, state.completeData)
  //   useEffect(() =>{
@@ -78,6 +79,7 @@
    pageChangeHandler = pageChangeHandler || inBuiltPageChangeHandler
  
    let getLastPageNumber = () => {
+    console.log(state.totalItemsCount,"oafaf")
        if (state.activePageNumber * state.pageSize > state.totalItemsCount) {
            return state.totalItemsCount
        }

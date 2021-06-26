@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "../customerList/pagination"
+import range from 'lodash/range';
+import isEqual from 'lodash/isEqual';
+
 
 export function useCustomerList(props) {
   const [list, setList] = useState([]);
+  const [listCopy, setListCopy] = useState([]);
   const [pageLoader, setPageLoader] = useState(true);
+  const [paginationValue, setPaginationValue] = useState({
+    offset: 0,
+    limit: 5,
+});
+  const [pagination, setPagination] = useState({
+    startIndex: 0,
+    pageSize: 5,
+    activePageNumber: 1,
+});
 
   useEffect(() => {
     const url = "https://intense-tor-76305.herokuapp.com/merchants";
@@ -11,6 +24,7 @@ export function useCustomerList(props) {
       try {
         const response = await fetch(url);
         const list = await response.json();
+        setListCopy(list)
         findMaxMin(list);
       } catch (error) {
         console.log("error", error);
@@ -19,6 +33,54 @@ export function useCustomerList(props) {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    findMaxMin(listCopy)
+
+  },[paginationValue])
+
+  function pageChangeHandler(pageSize, activePageNumber) {
+    let listClone = JSON.parse(JSON.stringify(list));
+    let paginationClone = JSON.parse(JSON.stringify(pagination));
+    
+    let pageSizeChanged = pageSize !== paginationClone.pageSize;
+    let totalPages = listCopy.length;
+    if (pageSizeChanged) {
+        if (totalPages < activePageNumber) {
+            activePageNumber = totalPages;
+        }
+    } else if (activePageNumber === "...") {
+        activePageNumber = Math.ceil((getPageNumbers()[3] - 1) / 2);
+    }
+    let endIndex = pageSize * activePageNumber;
+    let startIndex = endIndex - pageSize;
+    setPagination({
+        startIndex: startIndex,
+        pageSize: pageSize,
+        activePageNumber: activePageNumber,
+    })
+    setList(listClone)
+    setPaginationValue({
+        offset: startIndex,
+        limit: pageSize
+    })
+
+};
+
+function getPageNumbers(){
+  if (listCopy.length < 6)
+      return range(1, listCopy.length + 1)
+  else {
+      let start = pagination.activePageNumber < 4 ? 1 : pagination.activePageNumber - 2
+      let end = pagination.activePageNumber < 4 ? 6 : (pagination.activePageNumber + 3 > listCopy.length) ? listCopy.length + 1 : pagination.activePageNumber + 3
+      if (end - start < 5)
+          start = end - 5
+      let arr = range(start, end)
+      if (start !== 1)
+          arr = [1, "...", ...arr]
+      return arr
+  }
+}
 
   function findMaxMin(list, key) {
       
@@ -31,10 +93,11 @@ export function useCustomerList(props) {
             list[index].maxBid = false
         }
         else{
+
             list[index]["bidAmount"] = list[index].bids[0] === undefined ? "No Bid" : list[index].bids[0].amount;
             list[index].maxBid = true
         }
-       
+        list.sort((a, b) => b.bidAmount - a.bidAmount);
     }
     else{
         list.map((item) => {
@@ -43,11 +106,11 @@ export function useCustomerList(props) {
             item["maxBid"] = true
         });
 
+        list.sort((a, b) => b.bidAmount - a.bidAmount);
+        list = list.slice(paginationValue.offset,paginationValue.limit + paginationValue.offset)
     }
-    console.log(list)
     
      
-    list.sort((a, b) => b.bidAmount - a.bidAmount);
 
     const customerList = [...list]
     setList(customerList);
@@ -76,7 +139,7 @@ export function useCustomerList(props) {
           ) : (
             list.map((item, index) => 
             (
-              <div className="list-item" key={index}>
+              <div className="list-item mr-b-20" key={index}>
                 <ul className="list-style-none d-flex ">
                   <li className="flex-25">
                     <h2 className="text-truncate">
@@ -122,7 +185,14 @@ export function useCustomerList(props) {
           )}
         </div>
 
-      {/* <Pagination/> */}
+        {listCopy.length > 0 &&
+          <Pagination
+            pageChangeHandler={pageChangeHandler}
+            data={list}
+            activePageNumber={pagination.activePageNumber}
+            totalItemsCount={listCopy.length}
+            pageSize={pagination.pageSize}
+        />}
       </div>
     </div>
   );
